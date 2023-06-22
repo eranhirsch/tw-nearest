@@ -32,7 +32,6 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "checkJs": true,
 
     // From vite-react tsconfig bases
     // @see https://github.com/tsconfig/bases/blob/main/bases/vite-react.json
