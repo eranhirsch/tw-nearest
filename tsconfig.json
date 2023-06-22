@@ -1,8 +1,13 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -14,12 +19,25 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Linting */
+    // Strictest settings from tsconfig bases
+    // @see https://github.com/tsconfig/bases/blob/main/bases/strictest.json
     "strict": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "checkJs": true,
+
+    // From vite-react tsconfig bases
+    // @see https://github.com/tsconfig/bases/blob/main/bases/vite-react.json
+    "allowJs": false,
+    "esModuleInterop": false,
+    "forceConsistentCasingInFileNames": true
+  }
 }
