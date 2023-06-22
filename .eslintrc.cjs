@@ -2,6 +2,8 @@
  * @type {import('eslint').Linter.Config}
  */
 module.exports = {
+  root: true,
+
   env: {
     browser: true,
     es2020: true,
@@ -17,6 +19,9 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react-refresh"],
+
+  reportUnusedDisableDirectives: true,
+
   rules: {
     "react-refresh/only-export-components": "warn",
   },
