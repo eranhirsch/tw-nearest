@@ -69,6 +69,7 @@ module.exports = {
     {
       files: ["*.tsx"],
       rules: {
+        "unicorn/no-null": "off",
         "unicorn/filename-case": ["error", { case: "pascalCase" }],
       },
     },
