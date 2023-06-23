@@ -33,11 +33,11 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:@typescript-eslint/strict",
-    "plugin:react/recommended",
-    "plugin:react/jsx-runtime",
-    "plugin:react-hooks/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:unicorn/recommended",
     "prettier",
   ],
@@ -51,15 +51,26 @@ module.exports = {
       "@typescript-eslint/parser": [".ts", ".tsx"],
     },
     "import/resolver": {
-      typescript: {
-        alwaysTryTypes: true,
-      },
+      typescript: {},
     },
   },
 
   reportUnusedDisableDirectives: true,
 
   rules: {
+    "import/no-unresolved": "off",
+
     "react-refresh/only-export-components": "warn",
+
+    "unicorn/filename-case": ["error", { case: "camelCase" }],
   },
+
+  overrides: [
+    {
+      files: ["*.tsx"],
+      rules: {
+        "unicorn/filename-case": ["error", { case: "pascalCase" }],
+      },
+    },
+  ],
 };
