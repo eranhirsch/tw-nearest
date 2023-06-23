@@ -72,5 +72,16 @@ module.exports = {
         "unicorn/filename-case": ["error", { case: "pascalCase" }],
       },
     },
+    {
+      files: [".eslintrc.cjs"],
+      rules: { "no-undef": "off" },
+    },
+    {
+      files: ["*.config.cjs"],
+      rules: {
+        "no-undef": "off",
+        "unicorn/filename-case": "off",
+      },
+    },
   ],
 };
