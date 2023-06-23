@@ -1,7 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
 
-  "include": ["src", "*.config.cjs", "*.config.ts", ".eslintrc.cjs"],
+  "include": [
+    "*.config.cjs",
+    "*.config.js",
+    "*.config.ts",
+    "**/.eslintrc.cjs",
+    "src"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }],
 
   "compilerOptions": {
