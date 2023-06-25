@@ -1,8 +1,10 @@
-import { PropsWithChildren, useState } from "react";
-import { ScoredColor, twNearest } from "./twNearest";
+import { PropsWithChildren, useMemo, useState } from "react";
+import { twNearest } from "./twNearest";
 
 export function App() {
-  const [twColors, setTwColors] = useState<readonly ScoredColor[]>([]);
+  const [color, setColor] = useState("#000000");
+
+  const closest = useMemo(() => twNearest(color), [color]);
 
   return (
     <div className="flex h-screen w-screen items-center justify-center overflow-hidden">
@@ -13,36 +15,43 @@ export function App() {
             <input
               type="color"
               onChange={({ currentTarget: { value } }) => {
-                setTwColors(twNearest(value));
+                setColor(value);
               }}
             />
           </label>
         </form>
-        <ol className="h-1/2 w-96 overflow-hidden overflow-y-auto">
-          {twColors.map(({ color, names, distance }) => (
-            <li key={color}>
-              {names.length > 1 ? (
-                <ul>
-                  {names.map(([colorName, shade]) => (
-                    <li key={colorName}>
-                      <Color colorName={colorName} shade={shade} color={color}>
-                        {distance}
-                      </Color>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <Color
-                  colorName={names[0][0]}
-                  shade={names[0][1]}
-                  color={color}
-                >
-                  {distance.toFixed(2)}
-                </Color>
-              )}
-            </li>
-          ))}
-        </ol>
+        <section className="flex h-1/2 w-96">
+          <div className="h-full flex-1" style={{ backgroundColor: color }} />
+          <ol className="h-full flex-[3_3] overflow-hidden overflow-y-auto">
+            {closest.map(({ color, names, distance }) => (
+              <li key={color}>
+                {names.length > 1 ? (
+                  <ul>
+                    {names.map(([colorName, shade]) => (
+                      <li key={colorName}>
+                        <Color
+                          colorName={colorName}
+                          shade={shade}
+                          color={color}
+                        >
+                          {distance}
+                        </Color>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <Color
+                    colorName={names[0][0]}
+                    shade={names[0][1]}
+                    color={color}
+                  >
+                    {distance.toFixed(2)}
+                  </Color>
+                )}
+              </li>
+            ))}
+          </ol>
+        </section>
       </main>
     </div>
   );
@@ -59,12 +68,15 @@ function Color({
   readonly color: string;
 }>): JSX.Element {
   return (
-    <div className="flex gap-1 p-2" style={{ backgroundColor: color }}>
-      <pre className="rounded bg-gray-200 p-1 font-mono text-xs font-semibold text-gray-800">
-        {colorName}
-        {shade !== undefined && <>-{shade}</>}
-      </pre>
+    <article className="flex w-full gap-2">
+      <div className="w-1/2" style={{ backgroundColor: color }} />
+      <div className="flex items-center justify-center p-2">
+        <pre className="flex-none rounded bg-gray-200 p-1 font-mono text-xs font-semibold text-gray-800">
+          {colorName}
+          {shade !== undefined && <>-{shade}</>}
+        </pre>
+      </div>
       {children}
-    </div>
+    </article>
   );
 }
