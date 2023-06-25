@@ -1,18 +1,25 @@
-import { map, pipe, sortBy, toPairs } from "remeda";
+import { map, pipe, prop, sortBy, toPairs } from "remeda";
+import { TAILWIND_COLORS, TailwindColor } from "./tailwindColors";
 import { CIELAB, asLAB } from "./utils/cielab";
 import { asCIEXYZ } from "./utils/ciexyz";
 import { distance } from "./utils/distance";
 import { asSRGB } from "./utils/srgb";
-import { TAILWIND_COLORS, TailwindColor } from "./tailwindColors";
 
-export function twNearest(target: string): readonly TailwindColor[] {
+export interface ScoredColor {
+  readonly color: TailwindColor;
+  readonly distance: number;
+}
+
+export function twNearest(target: string): readonly ScoredColor[] {
   const targetLab = hexStringToCIELAB(target);
   return pipe(
     TAILWIND_COLORS,
     toPairs.strict,
-    sortBy(([value]) => distance(targetLab, hexStringToCIELAB(value))),
-    ($) => $,
-    map(([, twColor]) => twColor),
+    map(([value, color]) => ({
+      color,
+      distance: distance(targetLab, hexStringToCIELAB(value)),
+    })),
+    sortBy(prop("distance")),
   );
 }
 
