@@ -1,11 +1,11 @@
 import invariant from "tiny-invariant";
 
-type RGB = Readonly<Record<"red" | "green" | "blue", number>>;
+export type SRGB = Readonly<Record<"red" | "green" | "blue", number>>;
 
 const HEX_RADIX = 16;
 const MAX_HEX_VALUE = Number.parseInt("FF", HEX_RADIX);
 
-export function asRgb(raw: string): RGB {
+export function asSRGB(raw: string): SRGB {
   const [, serialized] = raw.split("#", 2);
   invariant(serialized !== undefined, "Hex string must start with #");
   invariant(
