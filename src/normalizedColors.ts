@@ -1,10 +1,9 @@
 import { toPairs } from "remeda";
-import { TAILWIND_COLORS_RAW } from "./tailwindColorsRaw";
 
-export type TailwindColor<
-  Shade extends number,
-  T extends Colors<Shade>,
-> = readonly [color: keyof T, shade?: Shade];
+type NormalizedColor<Shade extends number, T extends Colors<Shade>> = readonly [
+  color: keyof T,
+  shade?: Shade,
+];
 
 type Colors<Shade extends number> = Readonly<
   Record<string, string | Shaded<Shade>>
@@ -13,15 +12,12 @@ type Shaded<Shade extends number> = Readonly<Record<Shade, string>>;
 
 type NamedColors<Shade extends number, T extends Colors<Shade>> = Record<
   string,
-  readonly [TailwindColor<Shade, T>, ...TailwindColor<Shade, T>[]]
+  readonly [NormalizedColor<Shade, T>, ...NormalizedColor<Shade, T>[]]
 >;
 
-export const TAILWIND_COLORS = normalizedTailwindColors(TAILWIND_COLORS_RAW);
-
-export function normalizedTailwindColors<
-  Shade extends number,
-  T extends Colors<Shade>,
->(raw: T): Readonly<NamedColors<Shade, T>> {
+export function normalizedColors<Shade extends number, T extends Colors<Shade>>(
+  raw: T,
+): Readonly<NamedColors<Shade, T>> {
   const out: NamedColors<Shade, T> = {};
 
   for (const [colorName, valueOrShades] of toPairs.strict(raw)) {

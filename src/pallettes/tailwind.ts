@@ -1,3 +1,5 @@
+import { normalizedColors } from "../normalizedColors";
+
 /**
  * @see https://github.com/tailwindlabs/tailwindcss/blob/master/src/public/colors.js
  */
@@ -291,3 +293,5 @@ export const TAILWIND_COLORS_RAW = {
     950: "#4c0519",
   },
 } as const;
+
+export const TAILWIND_COLORS = normalizedColors(TAILWIND_COLORS_RAW);

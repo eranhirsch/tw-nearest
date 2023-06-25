@@ -1,4 +1,4 @@
-import { CIELAB } from "./cielab";
+import { CIELAB } from "../color_spaces/cielab";
 
 export const distance = (first: CIELAB, second: CIELAB): number =>
   ((first.l - second.l) ** 2 +
