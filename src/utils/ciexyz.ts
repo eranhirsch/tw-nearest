@@ -1,5 +1,5 @@
 import { createPipe, mapValues, sumBy, toPairs } from "remeda";
-import { SRGB } from "./rgb";
+import { SRGB } from "./srgb";
 
 export type CIEXYZ = Readonly<Record<"x" | "y" | "z", number>>;
 
