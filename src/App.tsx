@@ -41,7 +41,7 @@ function Results({ color }: { readonly color: string }): JSX.Element {
   const closest = useMemo(() => twNearest(color), [color]);
 
   return (
-    <ol className="flex h-full flex-wrap items-center justify-center gap-3 overflow-hidden overflow-y-auto">
+    <ol className="flex h-full flex-wrap items-center justify-center gap-3 overflow-hidden overflow-y-auto p-1">
       {closest.map(({ color, names }) => (
         <>
           {names.length > 1 ? (
@@ -79,7 +79,7 @@ function Color({
   const { l } = asLAB(asCIEXYZ(asSRGB(color)));
   return (
     <article
-      className={`flex items-center justify-center rounded p-2 font-mono text-sm font-semibold ${
+      className={`flex items-center justify-center rounded p-2 font-mono text-sm font-semibold transition-all hover:scale-110 hover:shadow-md ${
         l > 50 ? "text-neutral-950" : "text-neutral-50"
       }`}
       style={{ backgroundColor: color }}
