@@ -1,14 +1,15 @@
-export type ColorName = keyof typeof TAILWIND_COLORS;
-export type ColorShade =
-  keyof (typeof TAILWIND_COLORS)[keyof typeof TAILWIND_COLORS];
-export type SingleShadeColor = "black" | "white";
-export type ShadedColor = Exclude<ColorName, SingleShadeColor>;
-export type Color = `${ShadedColor}-${ColorShade}` | SingleShadeColor;
+import { toPairs } from "remeda";
+
+type ColorName = keyof typeof TAILWIND_COLORS_RAW;
+type ColorShade =
+  keyof (typeof TAILWIND_COLORS_RAW)[keyof typeof TAILWIND_COLORS_RAW];
+
+type NormalizedTailwindColor = [color: ColorName, shade?: ColorShade];
 
 /**
  * @see https://github.com/tailwindlabs/tailwindcss/blob/master/src/public/colors.js
  */
-export const TAILWIND_COLORS = {
+const TAILWIND_COLORS_RAW = {
   black: "#000",
   white: "#fff",
   slate: {
@@ -297,4 +298,22 @@ export const TAILWIND_COLORS = {
     900: "#881337",
     950: "#4c0519",
   },
-};
+} as const;
+
+export const TAILWIND_COLORS = normalizedTailwindColors(TAILWIND_COLORS_RAW);
+
+function normalizedTailwindColors(
+  raw: typeof TAILWIND_COLORS_RAW,
+): Readonly<Record<string, NormalizedTailwindColor>> {
+  const out: Record<string, NormalizedTailwindColor> = {};
+  for (const [colorName, valueOrShades] of toPairs.strict(raw)) {
+    if (typeof valueOrShades === "string") {
+      out[valueOrShades] = [colorName];
+    } else {
+      for (const [shade, value] of toPairs.strict(valueOrShades)) {
+        out[value] = [colorName, Number.parseInt(shade) as ColorShade];
+      }
+    }
+  }
+  return out;
+}
