@@ -1,26 +1,68 @@
 import { toPairs } from "remeda";
 import { TAILWIND_COLORS_RAW } from "./tailwindColorsRaw";
 
-type ColorName = keyof typeof TAILWIND_COLORS_RAW;
-type ColorShade =
-  keyof (typeof TAILWIND_COLORS_RAW)[keyof typeof TAILWIND_COLORS_RAW];
+export type TailwindColor<
+  Shade extends number,
+  T extends Colors<Shade>,
+> = readonly [color: keyof T, shade?: Shade];
 
-export type TailwindColor = [color: ColorName, shade?: ColorShade];
+type Colors<Shade extends number> = Readonly<
+  Record<string, string | Shaded<Shade>>
+>;
+type Shaded<Shade extends number> = Readonly<Record<Shade, string>>;
+
+type NamedColors<Shade extends number, T extends Colors<Shade>> = Record<
+  string,
+  readonly [TailwindColor<Shade, T>, ...TailwindColor<Shade, T>[]]
+>;
 
 export const TAILWIND_COLORS = normalizedTailwindColors(TAILWIND_COLORS_RAW);
 
-function normalizedTailwindColors(
-  raw: typeof TAILWIND_COLORS_RAW,
-): Readonly<Record<string, TailwindColor>> {
-  const out: Record<string, TailwindColor> = {};
+export function normalizedTailwindColors<
+  Shade extends number,
+  T extends Colors<Shade>,
+>(raw: T): Readonly<NamedColors<Shade, T>> {
+  const out: NamedColors<Shade, T> = {};
+
   for (const [colorName, valueOrShades] of toPairs.strict(raw)) {
     if (typeof valueOrShades === "string") {
-      out[valueOrShades] = [colorName];
+      const normalized = normalizedColor(valueOrShades);
+      out[normalized] = [...(out[normalized] ?? []), [colorName]];
     } else {
       for (const [shade, value] of toPairs.strict(valueOrShades)) {
-        out[value] = [colorName, Number.parseInt(shade) as ColorShade];
+        const normalized = normalizedColor(value as string);
+        out[normalized] = [
+          ...(out[normalized] ?? []),
+          [colorName, asShade<Shade>(shade)],
+        ];
       }
     }
   }
+
   return out;
+}
+
+function normalizedColor(color: string): string {
+  if (!color.startsWith("#")) {
+    // We don't know what this is...
+    return color;
+  }
+
+  if (color.length === 7) {
+    // regular 6 digit color
+    return color;
+  }
+
+  if (color.length !== 4) {
+    // We don't know what this is...
+    return color;
+  }
+
+  const [r, g, b] = color.slice(1);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- We assert the lenght, there's no way to tell typescript this is safe without redundant undefined checks...
+  return `#${r!}${r!}${g!}${g!}${b!}${b!}`;
+}
+
+function asShade<Shade extends number>(x: string): Shade {
+  return Number.parseInt(x) as Shade;
 }
