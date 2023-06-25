@@ -4,7 +4,7 @@ type ColorName = keyof typeof TAILWIND_COLORS_RAW;
 type ColorShade =
   keyof (typeof TAILWIND_COLORS_RAW)[keyof typeof TAILWIND_COLORS_RAW];
 
-type NormalizedTailwindColor = [color: ColorName, shade?: ColorShade];
+export type TailwindColor = [color: ColorName, shade?: ColorShade];
 
 /**
  * @see https://github.com/tailwindlabs/tailwindcss/blob/master/src/public/colors.js
@@ -304,8 +304,8 @@ export const TAILWIND_COLORS = normalizedTailwindColors(TAILWIND_COLORS_RAW);
 
 function normalizedTailwindColors(
   raw: typeof TAILWIND_COLORS_RAW,
-): Readonly<Record<string, NormalizedTailwindColor>> {
-  const out: Record<string, NormalizedTailwindColor> = {};
+): Readonly<Record<string, TailwindColor>> {
+  const out: Record<string, TailwindColor> = {};
   for (const [colorName, valueOrShades] of toPairs.strict(raw)) {
     if (typeof valueOrShades === "string") {
       out[valueOrShades] = [colorName];
