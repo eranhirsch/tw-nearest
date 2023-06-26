@@ -4,16 +4,19 @@ export function ColorSelector({
   readonly onChange: (value: string) => void;
 }): JSX.Element {
   return (
-    <form className="flex items-center justify-center">
-      <label className="flex items-center gap-2">
-        Color:{" "}
-        <input
-          type="color"
-          onChange={({ currentTarget: { value } }) => {
-            onChange(value);
-          }}
-        />
-      </label>
+    <form className="flex h-10 items-center rounded p-1 ring ring-neutral-100">
+      <input
+        className="text-md font-mono outline-none"
+        placeholder="Enter a color..."
+        type="text"
+      />
+      <input
+        className="h-10 w-10 rounded-md bg-transparent p-2"
+        type="color"
+        onChange={({ currentTarget: { value } }) => {
+          onChange(value);
+        }}
+      />
     </form>
   );
 }
