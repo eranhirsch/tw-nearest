@@ -35,7 +35,7 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      - name: 📥 Download deps
+      - name: 📦 Download deps
         uses: bahmutov/npm-install@v1
         
       - name: 🏗️ Build
