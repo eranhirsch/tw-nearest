@@ -1,8 +1,6 @@
 import { useMemo } from "react";
 import { twNearest } from "../twNearest";
-import { asLAB } from "../color_spaces/cielab";
-import { asCIEXYZ } from "../color_spaces/ciexyz";
-import { asSRGB } from "../color_spaces/srgb";
+import { contrastTextClassName } from "./contrastTextClassName";
 
 export function Results({
   color,
@@ -56,12 +54,11 @@ function Color({
   readonly color: string;
   readonly onClick: (clickedColor: string) => void;
 }): JSX.Element {
-  const { l } = asLAB(asCIEXYZ(asSRGB(color)));
   return (
     <button
-      className={`flex items-center justify-center rounded p-2 font-mono text-sm font-semibold transition-all hover:scale-110 hover:shadow-md ${
-        l > 50 ? "text-neutral-950" : "text-neutral-50"
-      }`}
+      className={`flex items-center justify-center rounded p-2 font-mono text-sm font-semibold transition-all hover:scale-110 hover:shadow-md ${contrastTextClassName(
+        color,
+      )}`}
       style={{ backgroundColor: color }}
       onClick={() => {
         onClick(color);
