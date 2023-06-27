@@ -7,19 +7,19 @@ export type CIEXYZ = Readonly<Record<"x" | "y" | "z", number>>;
 // CIE 1931 standard illuminant values for converting RGB to XYZ.
 const COEFFICIENTS = {
   x: {
-    red: 0.4361,
-    green: 0.3851,
-    blue: 0.1431,
+    red: 0.412_456_4,
+    green: 0.357_576_1,
+    blue: 0.180_437_5,
   },
   y: {
-    red: 0.2225,
-    green: 0.7169,
-    blue: 0.060_62,
+    red: 0.212_672_9,
+    green: 0.715_152_2,
+    blue: 0.072_175,
   },
   z: {
-    red: 0.013_93,
-    green: 0.0971,
-    blue: 0.7142,
+    red: 0.019_333_9,
+    green: 0.119_192,
+    blue: 0.950_304_1,
   },
 } as const satisfies Readonly<
   Record<keyof CIEXYZ, Readonly<Record<keyof SRGB, number>>>
@@ -36,8 +36,9 @@ export const asCIEXYZ = (srgb: SRGB): CIEXYZ =>
     createPipe(
       toPairs.strict,
       sumBy(([color, coefficient]) => asLinear(srgb[color]) * coefficient),
+      ($) => $ * 100,
     ),
   );
 
 const asLinear = (srgb: number): number =>
-  srgb < 0.040_45 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
+  srgb <= 0.040_45 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
