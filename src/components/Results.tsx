@@ -12,7 +12,7 @@ export function Results({
   const closest = useMemo(() => twNearest(color), [color]);
 
   return (
-    <ol className="flex h-full flex-wrap items-center justify-center gap-3 overflow-hidden overflow-y-auto p-1">
+    <ol className="flex shrink flex-wrap content-start items-center justify-center gap-3 overflow-hidden overflow-y-auto p-1">
       {closest.map(({ color, names }) => (
         <>
           {names.length > 1 ? (
