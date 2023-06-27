@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { asLAB } from "../color_spaces/cielab";
 import { asCIEXYZ } from "../color_spaces/ciexyz";
 import { asSRGB } from "../color_spaces/srgb";
-import { contrastTextClassName } from "./contrastTextClassName";
 import { distance } from "../utils/distance";
+import { contrastTextClassName } from "./contrastTextClassName";
 
 export function Comparer({
   pivotColor,
@@ -14,19 +14,29 @@ export function Comparer({
 }): JSX.Element {
   const [pivotOnTop, setPivotOnTop] = useState(false);
 
-  const score = useMemo(
-    () =>
-      distance(
-        asLAB(asCIEXYZ(asSRGB(pivotColor))),
-        asLAB(asCIEXYZ(asSRGB(targetColor))),
-      ),
-    [pivotColor, targetColor],
-  );
+  const pivotRGB = asSRGB(pivotColor);
+  const pivotXYZ = asCIEXYZ(pivotRGB);
+  const pivotLAB = asLAB(pivotXYZ);
+
+  const targetRGB = asSRGB(targetColor);
+  const targetXYZ = asCIEXYZ(targetRGB);
+  const targetLAB = asLAB(targetXYZ);
+
+  const scoreRGB = distance(pivotRGB, targetRGB);
+  const scoreXYZ = distance(pivotXYZ, targetXYZ);
+  const scoreLAB = distance(pivotLAB, targetLAB);
 
   return (
     <section className="flex flex-col items-center justify-evenly gap-12">
-      <h6>Score: {score.toFixed(2)}</h6>
-      <section className="flex cursor-pointer select-none items-center justify-center">
+      <dl className="flex items-center gap-4 text-xs font-light tabular-nums [&_dd]:text-lg [&_dd]:font-medium">
+        <dt>LAB</dt>
+        <dd>{scoreLAB.toFixed(2)}</dd>
+        <dt>RGB</dt>
+        <dd>{scoreRGB.toFixed(2)}</dd>
+        <dt>XYZ</dt>
+        <dd>{scoreXYZ.toFixed(2)}</dd>
+      </dl>
+      <section className="flex cursor-pointer select-none items-center justify-center font-medium">
         <div
           className={`h-24 w-32 rounded p-1 text-xs ${contrastTextClassName(
             pivotColor,
@@ -36,9 +46,7 @@ export function Comparer({
             setPivotOnTop((current) => !current);
           }}
         >
-          <span className="flex flex-col items-start">
-            <pre className="font-semibold">{pivotColor}</pre>Pivot
-          </span>
+          Pivot
         </div>
         <div
           className={`-ms-14 flex h-24 w-32 items-end justify-end rounded p-1 text-xs ${contrastTextClassName(
@@ -49,9 +57,7 @@ export function Comparer({
             setPivotOnTop((current) => !current);
           }}
         >
-          <span className="flex flex-col items-end">
-            Target<pre className="font-semibold">{targetColor}</pre>
-          </span>
+          Target
         </div>
       </section>
       <dl className="flex gap-12">
@@ -74,7 +80,7 @@ function ColorDetails({ color }: { readonly color: string }): JSX.Element {
   const lab = asLAB(xyz);
 
   return (
-    <dl className="flex flex-col gap-2 font-mono text-xs">
+    <dl className="flex flex-col gap-2 font-mono text-xs tabular-nums">
       <dt>Hex</dt>
       <dd>{color}</dd>
       <dt>RGB</dt>
