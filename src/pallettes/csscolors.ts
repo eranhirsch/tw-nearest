@@ -151,6 +151,6 @@ export const CSS_COLORS_RAW = {
   whitesmoke: "#f5f5f5",
   yellow: "#ffff00",
   yellowgreen: "#9acd32",
-} as const;
+} as const satisfies Readonly<Record<Lowercase<string>, `#${string}`>>;
 
 export const CSS_COLORS = normalizedColors(CSS_COLORS_RAW);
