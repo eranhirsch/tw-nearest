@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  DetailedHTMLProps,
-  HTMLAttributes,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, DetailedHTMLProps, HTMLAttributes, useRef } from "react";
 import invariant from "tiny-invariant";
 import { CSS_COLORS_RAW } from "../pallettes/csscolors";
 
@@ -18,6 +11,7 @@ const REGEX_RGB =
   /^rgb\( *(\d+%?)(?:(?: *[ ,] *)|_)(\d+%?)(?:(?: *[ ,] *)|_)(\d+%?) *\)$/;
 
 export function CssColorPicker({
+  value,
   onChange,
   className,
   placeholder,
@@ -26,18 +20,11 @@ export function CssColorPicker({
   DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
   "onChange"
 > & {
+  readonly value: string;
   readonly placeholder?: string;
   readonly onChange: (value: string) => void;
 }): JSX.Element {
   const textInputReference = useRef<HTMLInputElement>(null);
-  const [color, setColor] = useState<string>();
-
-  useEffect(() => {
-    if (color === undefined) {
-      return;
-    }
-    onChange(color);
-  }, [color, onChange]);
 
   const handleTextChange = ({
     currentTarget: { value },
@@ -48,13 +35,13 @@ export function CssColorPicker({
     if (color === undefined) {
       return;
     }
-    setColor(color);
+    onChange(color);
   };
 
   const handlePickerChange = ({
     currentTarget: { value },
   }: ChangeEvent<HTMLInputElement>) => {
-    setColor(value);
+    onChange(value);
 
     const { current } = textInputReference;
     if (current === null) {
@@ -74,7 +61,7 @@ export function CssColorPicker({
         onChange={handleTextChange}
       />
       <input
-        value={color}
+        value={value}
         className="flex-none cursor-pointer rounded-md bg-transparent"
         type="color"
         onChange={handlePickerChange}
