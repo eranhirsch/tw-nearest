@@ -5,6 +5,6 @@ export function expectAllToBeClose<K extends string>(
   expected: Record<K, number>,
 ) {
   for (const key in actual) {
-    expect(actual[key]).toBeCloseTo(expected[key]);
+    expect(actual[key], `key '${key}'`).toBeCloseTo(expected[key]);
   }
 }
