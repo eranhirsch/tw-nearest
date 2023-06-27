@@ -43,17 +43,20 @@ export function Selector({
   };
 
   return (
-    <form className="flex h-10 items-center rounded p-2 ring ring-neutral-100">
+    <form
+      className="flex items-center rounded-lg border-2 p-2 focus-within:shadow-lg"
+      style={{ borderColor: color }}
+    >
       <input
         ref={textInputReference}
-        className="text-md font-mono text-neutral-500 outline-none"
+        className="text-md flex-1 font-mono text-neutral-500 outline-none"
         placeholder="CSS Color"
         type="text"
         onChange={handleTextChange}
       />
       <input
         value={color}
-        className="h-10 w-10 cursor-pointer rounded-md bg-transparent p-2"
+        className="flex-none cursor-pointer rounded-md bg-transparent"
         type="color"
         onChange={handlePickerChange}
       />
