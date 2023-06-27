@@ -3,7 +3,7 @@ import invariant from "tiny-invariant";
 export type SRGB = Readonly<Record<"red" | "green" | "blue", number>>;
 
 const HEX_RADIX = 16;
-const MAX_HEX_VALUE = Number.parseInt("FF", HEX_RADIX);
+const MAX_HEX_VALUE = 0xff;
 
 export function asSRGB(raw: string): SRGB {
   const [, serialized] = raw.split("#", 2);
