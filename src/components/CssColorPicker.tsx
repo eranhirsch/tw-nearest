@@ -17,7 +17,7 @@ const REGEX_RGB_HEXADECIMAL = /^#[\da-f]{3,6}$/;
 const REGEX_RGB =
   /^rgb\( *(\d+%?)(?:(?: *[ ,] *)|_)(\d+%?)(?:(?: *[ ,] *)|_)(\d+%?) *\)$/;
 
-export function Selector({
+export function CssColorPicker({
   onChange,
   className,
   placeholder,
