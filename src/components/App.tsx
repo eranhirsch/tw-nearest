@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Comparer } from "./components/Comparer";
-import { CssColorPicker } from "./components/CssColorPicker";
-import { Results } from "./components/Results";
+import { Comparer } from "./Comparer";
+import { CssColorPicker } from "./CssColorPicker";
+import { Results } from "./Results";
 
 const INITIAL_PIVOT_COLOR = "#ffffff";
 const INITIAL_TARGET_COLOR = "#000000";
