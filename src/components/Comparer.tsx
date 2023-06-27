@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { asLAB } from "../color_spaces/cielab";
 import { asCIEXYZ } from "../color_spaces/ciexyz";
-import { asSRGB } from "../color_spaces/srgb";
+import { SRGB, asSRGB } from "../color_spaces/srgb";
 import { distance } from "../utils/distance";
 import { contrastTextClassName } from "./contrastTextClassName";
 
@@ -17,6 +17,7 @@ export function Comparer({
   const pivotRGB = asSRGB(pivotColor);
   const targetRGB = asSRGB(targetColor);
   const scoreRGB = distance(pivotRGB, targetRGB);
+  const scoreRedMean = redmean(pivotRGB, targetRGB);
 
   const pivotXYZ = asCIEXYZ(pivotRGB);
   const targetXYZ = asCIEXYZ(targetRGB);
@@ -31,6 +32,8 @@ export function Comparer({
       <dl className="flex items-center gap-4 text-xs font-light tabular-nums [&_dd]:text-lg [&_dd]:font-medium">
         <dt>LAB</dt>
         <dd>{scoreLAB.toFixed(2)}</dd>
+        <dt>RedMean</dt>
+        <dd>{scoreRedMean.toFixed(2)}</dd>
         <dt>RGB</dt>
         <dd>{scoreRGB.toFixed(2)}</dd>
         <dt>XYZ</dt>
@@ -111,5 +114,19 @@ function ColorDetails({ color }: { readonly color: string }): JSX.Element {
         <dd>{lab.b.toFixed(5)}</dd>
       </dl>
     </dl>
+  );
+}
+
+/**
+ * @see https://en.wikipedia.org/wiki/Color_difference#sRGB
+ */
+function redmean(a: SRGB, b: SRGB): number {
+  const rRoof = (a.red + b.red) * 127.5;
+
+  return (
+    ((2 + rRoof / 256) * ((a.red - b.red) * 255) ** 2 +
+      4 * ((a.green - b.green) * 255) ** 2 +
+      (2 + (255 - rRoof) / 256) * ((a.blue - b.blue) * 255) ** 2) **
+    0.5
   );
 }
