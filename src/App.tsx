@@ -3,15 +3,16 @@ import { Comparer } from "./components/Comparer";
 import { CssColorPicker } from "./components/CssColorPicker";
 import { Results } from "./components/Results";
 
-const INITIAL_COLOR = "#a3e635";
+const INITIAL_PIVOT_COLOR = "#ffffff";
+const INITIAL_TARGET_COLOR = "#000000";
 
 export function App() {
-  const [pivotColor, setPivotColor] = useState<string>(INITIAL_COLOR);
-  const [targetColor, setTargetColor] = useState<string>();
+  const [pivotColor, setPivotColor] = useState(INITIAL_PIVOT_COLOR);
+  const [targetColor, setTargetColor] = useState(INITIAL_TARGET_COLOR);
 
   return (
     <div className="flex h-screen w-screen items-center justify-center overflow-hidden">
-      <main className="flex h-full w-full flex-col items-center justify-evenly gap-12 overflow-hidden px-32 py-24">
+      <main className="flex h-full w-full flex-col items-center justify-center gap-12 overflow-hidden px-32 py-24">
         <CssColorPicker
           value={pivotColor}
           style={{ borderColor: pivotColor }}
@@ -20,9 +21,7 @@ export function App() {
           placeholder="CSS Color"
         />
         <Results color={pivotColor} onColorClick={setTargetColor} />
-        {targetColor !== undefined && (
-          <Comparer pivotColor={pivotColor} targetColor={targetColor} />
-        )}
+        <Comparer pivotColor={pivotColor} targetColor={targetColor} />
       </main>
     </div>
   );
