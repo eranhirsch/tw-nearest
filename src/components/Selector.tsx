@@ -1,6 +1,8 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { CSS_COLORS_RAW } from "../pallettes/csscolors";
 
+const REGEX_RGB_HEXADECIMAL = /^#[\da-f]{3,6}$/;
+
 export function Selector({
   onChange,
 }: {
@@ -20,7 +22,7 @@ export function Selector({
     currentTarget: { value },
   }: ChangeEvent<HTMLInputElement>) => {
     const normalized = value.trim().toLowerCase();
-    const color = fromNamedColor(normalized);
+    const color = fromNamedColor(normalized) ?? fromHex(normalized);
     if (color === undefined) {
       return;
     }
@@ -51,7 +53,7 @@ export function Selector({
       />
       <input
         value={color}
-        className="h-10 w-10 rounded-md bg-transparent p-2"
+        className="h-10 w-10 cursor-pointer rounded-md bg-transparent p-2"
         type="color"
         onChange={handlePickerChange}
       />
@@ -61,3 +63,13 @@ export function Selector({
 
 const fromNamedColor = (possibleName: string): string | undefined =>
   (CSS_COLORS_RAW as Record<string, string>)[possibleName];
+
+const fromHex = (possibleHex: string): string | undefined =>
+  REGEX_RGB_HEXADECIMAL.test(possibleHex)
+    ? possibleHex.length === 7
+      ? possibleHex
+      : possibleHex.length === 4
+      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- We just confirmed the format of the string with the regex and it's length explicitly. Typescript just can't represent this in the typing system
+        `#${possibleHex[1]!}${possibleHex[1]!}${possibleHex[2]!}${possibleHex[2]!}${possibleHex[3]!}${possibleHex[3]!}`
+      : undefined
+    : undefined;
