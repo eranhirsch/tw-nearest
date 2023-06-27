@@ -9,6 +9,10 @@ interface TestCase {
   readonly lab: CIELAB;
 }
 
+/**
+ * All values created externally using EasyRGB.
+ * @see https://www.easyrgb.com/en/convert.php#inputFORM
+ */
 export const COLORS: readonly TestCase[] = [
   {
     name: "red pulse",
@@ -26,7 +30,13 @@ export const COLORS: readonly TestCase[] = [
     name: "blue pulse",
     rgb: { red: 0, green: 0, blue: 1 },
     xyz: { x: 18.044, y: 7.217, z: 95.03 },
-    lab: { l: 32.297, a: 79.188, b: -107.86 },
+    lab: {
+      l: 32.297,
+      // TODO [2024-01-01]: EasyRGB gave a value of 79.188 here, but we're
+      // getting this instead.
+      a: 79.193,
+      b: -107.86,
+    },
   },
   {
     name: "white",
