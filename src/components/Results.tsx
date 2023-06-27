@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { twNearest } from "../twNearest";
 import { contrastTextClassName } from "./contrastTextClassName";
 
+const RESULTS_TO_SHOW = 10;
+
 export function Results({
   color,
   onColorClick,
@@ -9,7 +11,10 @@ export function Results({
   readonly color: string;
   readonly onColorClick: (clickedColor: string) => void;
 }): JSX.Element {
-  const closest = useMemo(() => twNearest(color), [color]);
+  const closest = useMemo(
+    () => twNearest(color).slice(0, RESULTS_TO_SHOW),
+    [color],
+  );
 
   return (
     <ol className="flex shrink flex-wrap content-start items-center justify-center gap-3 overflow-hidden overflow-y-auto p-1">
