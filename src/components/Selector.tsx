@@ -1,4 +1,4 @@
-export function ColorSelector({
+export function Selector({
   onChange,
 }: {
   readonly onChange: (value: string) => void;
