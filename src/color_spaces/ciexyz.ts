@@ -1,11 +1,14 @@
 import { createPipe, mapValues, sumBy, toPairs } from "remeda";
 import { SRGB } from "./srgb";
 
+/**
+ * Numbers are non-negative, in the range of about 0..108 for sRGB.
+ */
 export type CIEXYZ = Readonly<Record<"x" | "y" | "z", number>>;
 
 // Constants for RGB to XYZ conversion. These coefficients are derived from the
 // CIE 1931 standard illuminant values for converting RGB to XYZ.
-const COEFFICIENTS = {
+export const XYZ_COEFFICIENTS = {
   x: {
     red: 0.412_456_4,
     green: 0.357_576_1,
@@ -32,7 +35,7 @@ const COEFFICIENTS = {
  */
 export const asCIEXYZ = (srgb: SRGB): CIEXYZ =>
   mapValues(
-    COEFFICIENTS,
+    XYZ_COEFFICIENTS,
     createPipe(
       toPairs.strict,
       sumBy(([color, coefficient]) => asLinear(srgb[color]) * coefficient),
