@@ -1,4 +1,11 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  DetailedHTMLProps,
+  HTMLAttributes,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import invariant from "tiny-invariant";
 import { CSS_COLORS_RAW } from "../pallettes/csscolors";
 
@@ -12,7 +19,14 @@ const REGEX_RGB =
 
 export function Selector({
   onChange,
-}: {
+  className,
+  placeholder,
+  ...properties
+}: Omit<
+  DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+  "onChange"
+> & {
+  readonly placeholder?: string;
   readonly onChange: (value: string) => void;
 }): JSX.Element {
   const textInputReference = useRef<HTMLInputElement>(null);
@@ -51,14 +65,11 @@ export function Selector({
   };
 
   return (
-    <form
-      className="flex items-center rounded-lg border-2 p-2 focus-within:shadow-lg"
-      style={{ borderColor: color }}
-    >
+    <div className={`flex items-center ${className ?? ""}`} {...properties}>
       <input
         ref={textInputReference}
-        className="text-md flex-1 font-mono text-neutral-500 outline-none"
-        placeholder="CSS Color"
+        className="flex-1 outline-none"
+        placeholder={placeholder}
         type="text"
         onChange={handleTextChange}
       />
@@ -68,7 +79,7 @@ export function Selector({
         type="color"
         onChange={handlePickerChange}
       />
-    </form>
+    </div>
   );
 }
 
