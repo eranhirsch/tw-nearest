@@ -43,4 +43,18 @@ describe("Correctness", () => {
     expect(y).toBeCloseTo(0.2159);
     expect(z).toBeCloseTo(0.1781);
   });
+
+  test("different ratios 1", () => {
+    const { x, y, z } = asCIEXYZ({ red: 0.123, green: 0.456, blue: 0.789 });
+    expect(x).toBeCloseTo(0.1574);
+    expect(y).toBeCloseTo(0.1644);
+    expect(z).toBeCloseTo(0.4353);
+  });
+
+  test("different ratios 1", () => {
+    const { x, y, z } = asCIEXYZ({ red: 0.456, green: 0.789, blue: 0.123 });
+    expect(x).toBeCloseTo(0.304);
+    expect(y).toBeCloseTo(0.4595);
+    expect(z).toBeCloseTo(0.069_26);
+  });
 });
