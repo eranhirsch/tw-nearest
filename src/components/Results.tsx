@@ -61,9 +61,11 @@ function Color({
 }): JSX.Element {
   return (
     <button
-      className={`flex items-center justify-center rounded p-2 font-mono text-sm font-semibold transition-all hover:scale-110 hover:shadow-md ${contrastTextClassName(
+      className={`flex items-center justify-center rounded p-2 font-mono text-sm font-semibold transition hover:scale-110 hover:shadow-md ${contrastTextClassName(
         color,
-      )}`}
+      )} ${
+        color === "#ffffff" ? "border border-dashed border-neutral-300" : ""
+      }}`}
       style={{ backgroundColor: color }}
       onClick={() => {
         onClick(color);
