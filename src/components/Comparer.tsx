@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { asLAB } from "../color_spaces/cielab";
 import { asCIEXYZ } from "../color_spaces/ciexyz";
 import { asSRGB } from "../color_spaces/srgb";
 import { contrastTextClassName } from "./contrastTextClassName";
+import { distance } from "../utils/distance";
 
 export function Comparer({
   pivotColor,
@@ -13,18 +14,18 @@ export function Comparer({
 }): JSX.Element {
   const [pivotOnTop, setPivotOnTop] = useState(false);
 
+  const score = useMemo(
+    () =>
+      distance(
+        asLAB(asCIEXYZ(asSRGB(pivotColor))),
+        asLAB(asCIEXYZ(asSRGB(targetColor))),
+      ),
+    [pivotColor, targetColor],
+  );
+
   return (
-    <section className="flex gap-20">
-      <dl className="flex gap-8">
-        <dt>Pivot</dt>
-        <dd>
-          <ColorDetails color={pivotColor} />
-        </dd>
-        <dt>Target</dt>
-        <dd>
-          <ColorDetails color={targetColor} />
-        </dd>
-      </dl>
+    <section className="flex flex-col items-center justify-evenly gap-12">
+      <h6>Score: {score.toFixed(2)}</h6>
       <section className="flex cursor-pointer select-none items-center justify-center">
         <div
           className={`h-24 w-32 rounded p-1 text-xs ${contrastTextClassName(
@@ -53,6 +54,16 @@ export function Comparer({
           </span>
         </div>
       </section>
+      <dl className="flex gap-12">
+        <dt>Pivot</dt>
+        <dd>
+          <ColorDetails color={pivotColor} />
+        </dd>
+        <dt>Target</dt>
+        <dd>
+          <ColorDetails color={targetColor} />
+        </dd>
+      </dl>
     </section>
   );
 }
