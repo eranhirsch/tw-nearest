@@ -15,15 +15,15 @@ export function Comparer({
   const [pivotOnTop, setPivotOnTop] = useState(false);
 
   const pivotRGB = asSRGB(pivotColor);
-  const pivotXYZ = asCIEXYZ(pivotRGB);
-  const pivotLAB = asLAB(pivotXYZ);
-
   const targetRGB = asSRGB(targetColor);
-  const targetXYZ = asCIEXYZ(targetRGB);
-  const targetLAB = asLAB(targetXYZ);
-
   const scoreRGB = distance(pivotRGB, targetRGB);
+
+  const pivotXYZ = asCIEXYZ(pivotRGB);
+  const targetXYZ = asCIEXYZ(targetRGB);
   const scoreXYZ = distance(pivotXYZ, targetXYZ);
+
+  const pivotLAB = asLAB(pivotXYZ);
+  const targetLAB = asLAB(targetXYZ);
   const scoreLAB = distance(pivotLAB, targetLAB);
 
   return (
