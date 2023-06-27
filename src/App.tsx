@@ -9,7 +9,7 @@ export function App() {
 
   return (
     <div className="flex h-screen w-screen items-center justify-center overflow-hidden">
-      <main className="flex h-full w-full items-center justify-center gap-8 overflow-hidden p-12">
+      <main className="flex h-full w-full flex-col items-center justify-center gap-8 overflow-hidden p-12">
         <CssColorPicker
           style={{ borderColor: pivotColor }}
           className="text-md rounded-lg border p-2 font-mono text-neutral-500 transition focus-within:shadow-lg"
