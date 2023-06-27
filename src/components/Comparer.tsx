@@ -14,8 +14,8 @@ export function Comparer({
   const [pivotOnTop, setPivotOnTop] = useState(false);
 
   return (
-    <section className="flex gap-8">
-      <dl className="flex flex-col gap-4">
+    <section className="flex gap-20">
+      <dl className="flex gap-8">
         <dt>Pivot</dt>
         <dd>
           <ColorDetails color={pivotColor} />
