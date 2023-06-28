@@ -5,17 +5,17 @@ import { contrastTextClassName } from "./contrastTextClassName";
 const RESULTS_TO_SHOW = 10;
 
 export function Results({
-  color,
-  selectedColor,
+  pivotColor,
+  targetColor,
   onColorClick,
 }: {
-  readonly color: string;
-  readonly selectedColor: string;
+  readonly pivotColor: string;
+  readonly targetColor: string;
   readonly onColorClick: (clickedColor: string) => void;
 }): JSX.Element {
   const closest = useMemo(
-    () => twNearest(color).slice(0, RESULTS_TO_SHOW),
-    [color],
+    () => twNearest(pivotColor).slice(0, RESULTS_TO_SHOW),
+    [pivotColor],
   );
 
   return (
@@ -27,7 +27,7 @@ export function Results({
               {names.map(([colorName, shade]) => (
                 <li key={colorName}>
                   <Color
-                    selected={color === selectedColor}
+                    selected={color === targetColor}
                     colorName={colorName}
                     shade={shade}
                     color={color}
@@ -39,7 +39,7 @@ export function Results({
           ) : (
             <li key={color}>
               <Color
-                selected={color === selectedColor}
+                selected={color === targetColor}
                 colorName={names[0][0]}
                 shade={names[0][1]}
                 color={color}

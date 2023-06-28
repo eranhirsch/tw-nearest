@@ -23,9 +23,9 @@ export function App() {
           placeholder="CSS Color"
         />
         <Results
-          color={pivotColor}
+          pivotColor={pivotColor}
           onColorClick={setTargetColor}
-          selectedColor={targetColor}
+          targetColor={targetColor}
         />
         <Comparer pivotColor={pivotColor} targetColor={targetColor} />
       </main>
