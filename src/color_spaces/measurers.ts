@@ -6,7 +6,7 @@ import {
   cubehelix as d3Cubehelix,
 } from "d3-color";
 import { euclideanDistance } from "../utils/euclideanDistance";
-import { redmean } from "../utils/redmean";
+import { redmean } from "./redmean";
 import { cie94 } from "./cie94";
 
 type MEASURER = (pivot: string) => (target: string) => number;
