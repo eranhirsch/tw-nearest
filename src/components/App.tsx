@@ -22,7 +22,11 @@ export function App() {
           onChange={setPivotColor}
           placeholder="CSS Color"
         />
-        <Results color={pivotColor} onColorClick={setTargetColor} />
+        <Results
+          color={pivotColor}
+          onColorClick={setTargetColor}
+          selectedColor={targetColor}
+        />
         <Comparer pivotColor={pivotColor} targetColor={targetColor} />
       </main>
     </div>
