@@ -1,10 +1,10 @@
 import { Fragment, useState } from "react";
-import { Comparer } from "./Comparer";
-import { CssColorPicker } from "./CssColorPicker";
-import { Results } from "./Results";
 import { filter, keys, map, pipe, toPairs } from "remeda";
 import { MEASURERS } from "../color_spaces/measurers";
+import { Comparer } from "./Comparer";
+import { CssColorPicker } from "./CssColorPicker";
 import { MultiPicker } from "./MultiPicker";
+import { Results } from "./Results";
 
 const INITIAL_PIVOT_COLOR = "#ffffff";
 const INITIAL_TARGET_COLOR = "#000000";
