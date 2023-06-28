@@ -8,11 +8,13 @@ import {
 import { euclideanDistance } from "../utils/euclideanDistance";
 import { redmean } from "./redmean";
 import { cie94 } from "./cie94";
+import { ciede2000 } from "./ciede2000";
 
 type MEASURER = (pivot: string) => (target: string) => number;
 
 export const MEASURERS = {
   cie94,
+  ciede2000,
   lab: euclideanDistance(d3Lab, ["l", "a", "b"]),
   redmean: (pivot) => (target) => redmean(pivot, target),
   rgb: euclideanDistance(d3Rgb, ["r", "g", "b"]),

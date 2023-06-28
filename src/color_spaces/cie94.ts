@@ -4,6 +4,12 @@ const KL = 1;
 const K1 = 0.045;
 const K2 = 0.015;
 
+/**
+ * Copied from d3-color-difference, I didn't double check if this is correct or
+ * not.
+ *
+ * @see https://github.com/Evercoder/d3-color-difference/blob/master/src/cie94.js
+ */
 export function cie94(pivot: string) {
   const std = d3Lab(pivot);
   const cStd = Math.pow(Math.pow(std.a, 2) + Math.pow(std.b, 2), 0.5);
