@@ -1,5 +1,5 @@
-import { lab as d3Lab, rgb as d3Rgb, lch as d3Lch } from "d3-color";
-import { Fragment, useMemo, useState } from "react";
+import { lab as d3Lab, rgb as d3Rgb, hsl as d3Hsl } from "d3-color";
+import { Fragment, useState } from "react";
 import { map, pipe, toPairs } from "remeda";
 import { MEASURERS } from "../color_spaces/measurers";
 import { contrastTextClassName } from "./contrastTextClassName";
@@ -67,11 +67,13 @@ export function Comparer({
 
 function ColorDetails({ color }: { readonly color: string }): JSX.Element {
   return (
-    <dl className="flex flex-col gap-2 font-mono text-xs tabular-nums">
+    <dl className="flex flex-col gap-2 font-mono text-xs tabular-nums [&_dt]:font-medium">
       <dt>Hex</dt>
       <dd>{color}</dd>
       <dt>RGB</dt>
       <Coordinates color={color} parser={d3Rgb} parts={["r", "g", "b"]} />
+      <dt>HSL</dt>
+      <Coordinates color={color} parser={d3Hsl} parts={["h", "s", "l"]} />
       <dt>LAB</dt>
       <Coordinates color={color} parser={d3Lab} parts={["l", "a", "b"]} />
     </dl>
@@ -93,7 +95,7 @@ function Coordinates<K extends string>({
       {parts.map((part) => (
         <Fragment key={part}>
           <dt>{part}</dt>
-          <dd>{parsed[part].toFixed(5)}</dd>
+          <dd>{parsed[part].toFixed(3)}</dd>
         </Fragment>
       ))}
     </dl>
