@@ -2,6 +2,7 @@ export const euclideanDistance =
   <K extends string>(
     parser: (color: string) => Readonly<Record<K, number>>,
     parts: readonly K[],
+    cyclic?: { part: K; max: number },
   ) =>
   (pivot: string) => {
     const parsedPivot = parser(pivot);
@@ -11,12 +12,15 @@ export const euclideanDistance =
       for (const part of parts) {
         const pivotPart = parsedPivot[part];
         const targetPart = parsedTarget[part];
-        distance += Math.pow(
+        distance +=
           Number.isNaN(pivotPart) || Number.isNaN(targetPart)
             ? 0
-            : pivotPart - targetPart,
-          2,
-        );
+            : Math.min(
+                Math.pow(pivotPart - targetPart, 2),
+                cyclic !== undefined && part === cyclic.part
+                  ? Math.pow(cyclic.max - pivotPart - targetPart, 2)
+                  : Number.POSITIVE_INFINITY,
+              );
       }
       return Math.pow(distance, 0.5);
     };
