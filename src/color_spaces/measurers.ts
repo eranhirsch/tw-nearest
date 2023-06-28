@@ -12,9 +12,19 @@ type MEASURER = (pivot: string) => (target: string) => number;
 
 export const MEASURERS = {
   lab: euclideanDistance(d3Lab, ["l", "a", "b"]),
-  lch: euclideanDistance(d3Lch, ["l", "c", "h"], { part: "h", max: 360 }),
+  lch: euclideanDistance(normalizedLch, ["l", "c", "h"], { part: "h", max: 1 }),
   redmean: (pivot) => (target) => redmean(pivot, target),
-  hsl: euclideanDistance(d3Hsl, ["h", "s", "l"], { part: "h", max: 360 }),
+  hsl: euclideanDistance(normalizedHsl, ["h", "s", "l"], { part: "h", max: 1 }),
   rgb: euclideanDistance(d3Rgb, ["r", "g", "b"]),
   cubehelix: euclideanDistance(d3Cubehelix, ["h", "s", "l"]),
 } as const satisfies Readonly<Record<string, MEASURER>>;
+
+function normalizedHsl(color: string) {
+  const { h, ...rest } = d3Hsl(color);
+  return { h: h / 360, ...rest };
+}
+
+function normalizedLch(color: string) {
+  const { h, ...rest } = d3Lch(color);
+  return { h: h / 360, ...rest };
+}
