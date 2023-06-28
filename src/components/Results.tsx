@@ -7,15 +7,17 @@ const RESULTS_TO_SHOW = 10;
 export function Results({
   pivotColor,
   targetColor,
+  measurerFunction,
   onColorClick,
 }: {
   readonly pivotColor: string;
   readonly targetColor: string;
+  readonly measurerFunction: (pivot: string) => (target: string) => number;
   readonly onColorClick: (clickedColor: string) => void;
 }): JSX.Element {
   const closest = useMemo(
-    () => twNearest(pivotColor).slice(0, RESULTS_TO_SHOW),
-    [pivotColor],
+    () => twNearest(measurerFunction(pivotColor)).slice(0, RESULTS_TO_SHOW),
+    [measurerFunction, pivotColor],
   );
 
   return (

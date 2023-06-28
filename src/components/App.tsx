@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Comparer } from "./Comparer";
 import { CssColorPicker } from "./CssColorPicker";
 import { Results } from "./Results";
+import { map, pipe, toPairs } from "remeda";
+import { MEASURERS } from "../color_spaces/measurers";
 
 const INITIAL_PIVOT_COLOR = "#ffffff";
 const INITIAL_TARGET_COLOR = "#000000";
@@ -22,11 +24,26 @@ export function App() {
           onChange={setPivotColor}
           placeholder="CSS Color"
         />
-        <Results
-          pivotColor={pivotColor}
-          onColorClick={setTargetColor}
-          targetColor={targetColor}
-        />
+        <section className="grid grid-cols-[min-content_auto] gap-5">
+          {pipe(
+            MEASURERS,
+            toPairs.strict,
+            map(([measurerName, measurer]) => (
+              <Fragment key={measurerName}>
+                <h6 className="flex items-center justify-end text-xs font-bold uppercase">
+                  {measurerName}
+                </h6>
+                <Results
+                  key={measurerName}
+                  pivotColor={pivotColor}
+                  onColorClick={setTargetColor}
+                  targetColor={targetColor}
+                  measurerFunction={measurer}
+                />
+              </Fragment>
+            )),
+          )}
+        </section>
         <Comparer pivotColor={pivotColor} targetColor={targetColor} />
       </main>
     </div>

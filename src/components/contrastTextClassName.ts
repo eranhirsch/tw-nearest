@@ -1,8 +1,6 @@
-import { asLAB } from "../color_spaces/cielab";
-import { asCIEXYZ } from "../color_spaces/ciexyz";
-import { asSRGB } from "../color_spaces/srgb";
+import { lab as d3Lab } from "d3-color";
 
 export function contrastTextClassName(color: string): string {
-  const { l } = asLAB(asCIEXYZ(asSRGB(color)));
+  const { l } = d3Lab(color);
   return l > 50 ? "text-neutral-950" : "text-neutral-50";
 }
