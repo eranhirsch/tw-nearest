@@ -11,10 +11,6 @@ import { cie94 } from "./cie94";
 
 type MEASURER = (pivot: string) => (target: string) => number;
 
-export const KL = 1;
-export const K1 = 0.045;
-export const K2 = 0.015;
-
 export const MEASURERS = {
   cie94,
   lab: euclideanDistance(d3Lab, ["l", "a", "b"]),

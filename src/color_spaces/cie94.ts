@@ -1,5 +1,8 @@
 import { lab as d3Lab } from "d3-color";
-import { KL, K1, K2 } from "./measurers";
+
+const KL = 1;
+const K1 = 0.045;
+const K2 = 0.015;
 
 export function cie94(pivot: string) {
   const std = d3Lab(pivot);
