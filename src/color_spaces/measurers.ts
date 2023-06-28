@@ -9,21 +9,18 @@ import { euclideanDistance } from "../utils/euclideanDistance";
 import { redmean } from "./redmean";
 import { cie94 } from "./cie94";
 import { ciede2000 } from "./ciede2000";
+import { cmc } from "./cmc";
 
 type MEASURER = (pivot: string) => (target: string) => number;
 
 export const MEASURERS = {
-  cie94,
   ciede2000,
+  cie94,
+  cmc,
   lab: euclideanDistance(d3Lab, ["l", "a", "b"]),
   redmean: (pivot) => (target) => redmean(pivot, target),
   rgb: euclideanDistance(d3Rgb, ["r", "g", "b"]),
   lch: euclideanDistance(d3Lch, ["l", "c", "h"], { part: "h", max: 360 }),
-  hsl: euclideanDistance(normalizedHsl, ["h", "s", "l"], { part: "h", max: 1 }),
+  hsl: euclideanDistance(d3Hsl, ["h", "s", "l"], { part: "h", max: 360 }),
   cubehelix: euclideanDistance(d3Cubehelix, ["h", "s", "l"]),
 } as const satisfies Readonly<Record<string, MEASURER>>;
-
-function normalizedHsl(color: string) {
-  const { h, ...rest } = d3Hsl(color);
-  return { h: h / 360, ...rest };
-}

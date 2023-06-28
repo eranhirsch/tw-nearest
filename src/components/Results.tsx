@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { twNearest } from "../twNearest";
 import { contrastTextClassName } from "./contrastTextClassName";
 
-const RESULTS_TO_SHOW = 10;
+const RESULTS_TO_SHOW = 8;
 
 export function Results({
   pivotColor,
