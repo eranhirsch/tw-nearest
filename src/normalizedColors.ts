@@ -1,4 +1,6 @@
 import { toPairs } from "remeda";
+import { color as d3Color } from "d3-color";
+import invariant from "tiny-invariant";
 
 type NormalizedColor<Shade extends number, T extends Colors<Shade>> = readonly [
   color: keyof T,
@@ -38,27 +40,11 @@ export function normalizedColors<Shade extends number, T extends Colors<Shade>>(
   return out;
 }
 
-function normalizedColor(color: string): string {
-  if (!color.startsWith("#")) {
-    // We don't know what this is...
-    return color;
-  }
-
-  if (color.length === 7) {
-    // regular 6 digit color
-    return color;
-  }
-
-  if (color.length !== 4) {
-    // We don't know what this is...
-    return color;
-  }
-
-  const [r, g, b] = color.slice(1);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- We assert the lenght, there's no way to tell typescript this is safe without redundant undefined checks...
-  return `#${r!}${r!}${g!}${g!}${b!}${b!}`;
+function normalizedColor(raw: string): string {
+  const color = d3Color(raw);
+  invariant(color !== null, `Invalid color: ${raw}`);
+  return color.formatHex();
 }
 
-function asShade<Shade extends number>(x: string): Shade {
-  return Number.parseInt(x) as Shade;
-}
+const asShade = <Shade extends number>(x: string): Shade =>
+  Number.parseInt(x) as Shade;
