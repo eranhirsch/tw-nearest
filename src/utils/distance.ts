@@ -7,6 +7,6 @@ export const distance = <T extends Record<string, number>>(
   pipe(
     first,
     toPairs.strict,
-    sumBy(([key, value]) => (second[key] - value) ** 2),
-    ($) => $ ** 0.5,
+    sumBy(([key, value]) => Math.pow(second[key] - value, 2)),
+    ($) => Math.pow($, 0.5),
   );
