@@ -3,6 +3,8 @@ import { Fragment, useState } from "react";
 import { map, pipe, toPairs } from "remeda";
 import { MEASURERS } from "../color_spaces/measurers";
 import { contrastTextClassName } from "./contrastTextClassName";
+import { CopyToClipboardButton } from "./CopyToClipboardButton";
+import { TAILWIND_COLORS } from "../pallettes/tailwind";
 
 export function Comparer({
   pivotColor,
@@ -13,21 +15,11 @@ export function Comparer({
 }): JSX.Element {
   const [pivotOnTop, setPivotOnTop] = useState(false);
 
+  const tailwindColors = TAILWIND_COLORS[targetColor] ?? [];
+
   return (
     <section className="flex flex-col items-center justify-evenly gap-12">
-      <dl className="flex items-center gap-4 text-xs font-light tabular-nums [&_dd]:text-lg [&_dd]:font-medium">
-        {pipe(
-          MEASURERS,
-          toPairs.strict,
-          map(([measurerName, measurer]) => (
-            <Fragment key={measurerName}>
-              <dt>{measurerName}</dt>
-              <dd>{measurer(pivotColor)(targetColor).toFixed(2)}</dd>
-            </Fragment>
-          )),
-        )}
-      </dl>
-      <section className="flex cursor-pointer select-none items-center justify-center font-medium">
+      <section className="flex cursor-pointer select-none items-center justify-center gap-4 font-medium">
         <div
           className={`h-24 w-32 rounded p-1 text-xs ${contrastTextClassName(
             pivotColor,
@@ -50,7 +42,27 @@ export function Comparer({
         >
           Target
         </div>
+        <section className="ms-4 flex flex-col gap-4">
+          {tailwindColors.map((parts) => (
+            <CopyToClipboardButton
+              key={parts.join("-")}
+              text={parts.join("-")}
+            />
+          ))}
+        </section>
       </section>
+      <dl className="flex items-center gap-4 text-xs font-light tabular-nums [&_dd]:text-lg [&_dd]:font-medium">
+        {pipe(
+          MEASURERS,
+          toPairs.strict,
+          map(([measurerName, measurer]) => (
+            <Fragment key={measurerName}>
+              <dt>{measurerName}</dt>
+              <dd>{measurer(pivotColor)(targetColor).toFixed(2)}</dd>
+            </Fragment>
+          )),
+        )}
+      </dl>
       <dl className="flex gap-12">
         <dt>Pivot</dt>
         <dd>
