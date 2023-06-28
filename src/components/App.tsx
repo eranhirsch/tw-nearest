@@ -10,7 +10,7 @@ const INITIAL_PIVOT_COLOR = "#ffffff";
 const INITIAL_TARGET_COLOR = "#000000";
 
 const DEFAULT_ACTIVE_MEASURERS = [
-  "cie94",
+  "ciede2000",
 ] as const satisfies readonly (keyof typeof MEASURERS)[];
 
 const ALL_MEASURERS = keys.strict(MEASURERS);
