@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ClipboardDocumentIcon } from "./icons/ClipboardDocumentIcon";
+import { ClipboardDocumentIcon } from "../components/icons/ClipboardDocumentIcon";
 
 export function CopyToClipboardButton({
   text,

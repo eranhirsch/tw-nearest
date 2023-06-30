@@ -1,13 +1,12 @@
-import { Fragment, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
+import { useParams } from "react-router-dom";
 import { filter, keys, map, pipe, toPairs } from "remeda";
+import invariant from "tiny-invariant";
 import { MEASURERS } from "../color_spaces/measurers";
 import { Comparer } from "./Comparer";
 import { CssColorPicker } from "./CssColorPicker";
 import { MultiPicker } from "./MultiPicker";
 import { Results } from "./Results";
-
-const INITIAL_PIVOT_COLOR = "#ffffff";
-const INITIAL_TARGET_COLOR = "#000000";
 
 const DEFAULT_ACTIVE_MEASURERS = [
   "ciede2000",
@@ -16,11 +15,24 @@ const DEFAULT_ACTIVE_MEASURERS = [
 const ALL_MEASURERS = keys.strict(MEASURERS);
 
 export function App() {
-  const [pivotColor, setPivotColor] = useState(INITIAL_PIVOT_COLOR);
-  const [targetColor, setTargetColor] = useState(INITIAL_TARGET_COLOR);
+  const { pivotColor: pivotColorParameter, targetColor: targetColorParameter } =
+    useParams();
+  invariant(pivotColorParameter !== undefined, "pivotColor is undefined");
+  invariant(targetColorParameter !== undefined, "targetColor is undefined");
+  const pivotColor = `#${pivotColorParameter}`;
+  const targetColor = `#${targetColorParameter}`;
+
   const [activeMeasurers, setActiveMeasurers] = useState<
     readonly (keyof typeof MEASURERS)[]
   >(DEFAULT_ACTIVE_MEASURERS);
+
+  const handlePivotColorChange = useCallback((_color: string) => {
+    // DO NOTHING FOR NOW
+  }, []);
+
+  const handleTargetColorChange = useCallback((_color: string) => {
+    // DO NOTHING FOR NOW
+  }, []);
 
   return (
     <div className="flex h-screen w-screen items-center justify-center overflow-hidden">
@@ -32,7 +44,7 @@ export function App() {
             className={`text-md w-64 rounded-lg border p-2 font-mono text-neutral-500 transition focus-within:shadow-lg ${
               pivotColor === "#ffffff" ? "!border-neutral-300" : ""
             }`}
-            onChange={setPivotColor}
+            onChange={handlePivotColorChange}
             placeholder="CSS Color"
           />
           <MultiPicker
@@ -55,7 +67,7 @@ export function App() {
                 <Results
                   key={measurerName}
                   pivotColor={pivotColor}
-                  onColorClick={setTargetColor}
+                  onColorClick={handleTargetColorChange}
                   targetColor={targetColor}
                   measurerFunction={measurer}
                 />

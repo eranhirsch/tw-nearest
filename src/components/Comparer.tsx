@@ -3,8 +3,8 @@ import { Fragment, useState } from "react";
 import { map, pipe, toPairs } from "remeda";
 import { MEASURERS } from "../color_spaces/measurers";
 import { contrastTextClassName } from "./contrastTextClassName";
-import { CopyToClipboardButton } from "./CopyToClipboardButton";
 import { TAILWIND_COLORS } from "../pallettes/tailwind";
+import { CopyToClipboardButton } from "./CopyToClipboardButton";
 
 export function Comparer({
   pivotColor,

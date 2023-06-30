@@ -1,6 +1,6 @@
 import { Listbox } from "@headlessui/react";
-import { CheckIcon } from "./icons/CheckIcon";
-import { ChevronUpDownIcon } from "./icons/ChevronUpDownIcon";
+import { CheckIcon } from "../components/icons/CheckIcon";
+import { ChevronUpDownIcon } from "../components/icons/ChevronUpDownIcon";
 
 export function MultiPicker<T extends string>({
   className,

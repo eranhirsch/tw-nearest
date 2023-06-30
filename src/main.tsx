@@ -1,9 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider } from "react-router-dom";
 import invariant from "tiny-invariant";
-import { ROUTER } from "./ROUTER";
+import { ROUTER } from "./ROUTER.ts";
 import "./index.css";
+import { RouterProvider } from "react-router-dom";
 
 const ROOT_ELEMENT_SELECTOR = "#root";
 
