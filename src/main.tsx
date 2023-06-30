@@ -1,10 +1,9 @@
-/* eslint-disable unicorn/filename-case -- This is defined by vite! */
-
 import { StrictMode } from "react";
-import { App } from "./components/App.tsx";
-import "./index.css";
 import { createRoot } from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
 import invariant from "tiny-invariant";
+import { ROUTER } from "./ROUTER";
+import "./index.css";
 
 const ROOT_ELEMENT_SELECTOR = "#root";
 
@@ -16,6 +15,6 @@ invariant(
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App />
+    <RouterProvider router={ROUTER} />
   </StrictMode>,
 );
