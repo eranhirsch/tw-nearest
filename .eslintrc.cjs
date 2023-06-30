@@ -62,7 +62,8 @@ module.exports = {
 
     "react-refresh/only-export-components": "warn",
 
-    "unicorn/filename-case": ["error", { case: "camelCase" }],
+    // This drives me crazy, it doesn't make sense, maybe in the future...
+    "unicorn/filename-case": "off",
   },
 
   overrides: [
@@ -70,7 +71,6 @@ module.exports = {
       files: ["*.tsx"],
       rules: {
         "unicorn/no-null": "off",
-        "unicorn/filename-case": ["error", { case: "pascalCase" }],
       },
     },
     {
@@ -81,7 +81,6 @@ module.exports = {
       files: ["*.config.cjs"],
       rules: {
         "no-undef": "off",
-        "unicorn/filename-case": "off",
       },
     },
   ],
