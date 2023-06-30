@@ -35,10 +35,6 @@ export function App() {
     [navigate, targetColor],
   );
 
-  const handleTargetColorChange = useCallback((_color: string) => {
-    // DO NOTHING FOR NOW
-  }, []);
-
   return (
     <div className="flex h-screen w-screen items-center justify-center overflow-hidden">
       <main className="flex h-full w-full flex-col items-center justify-center gap-12 overflow-hidden px-32 py-24">
@@ -72,8 +68,6 @@ export function App() {
                 <Results
                   key={measurerName}
                   pivotColor={pivotColor}
-                  onColorClick={handleTargetColorChange}
-                  targetColor={targetColor}
                   measurerFunction={measurer}
                 />
               </Fragment>
