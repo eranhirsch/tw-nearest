@@ -1,12 +1,12 @@
 import { Fragment, useCallback, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { filter, keys, map, pipe, toPairs } from "remeda";
-import invariant from "tiny-invariant";
 import { MEASURERS } from "../color_spaces/measurers";
 import { Comparer } from "./Comparer";
 import { CssColorPicker } from "./CssColorPicker";
 import { MultiPicker } from "./MultiPicker";
 import { Results } from "./Results";
+import { useParameterColor } from "./useParameterColor";
 
 const DEFAULT_ACTIVE_MEASURERS = [
   "ciede2000",
@@ -17,12 +17,8 @@ const ALL_MEASURERS = keys.strict(MEASURERS);
 export function App() {
   const navigate = useNavigate();
 
-  const { pivotColor: pivotColorParameter, targetColor: targetColorParameter } =
-    useParams();
-  invariant(pivotColorParameter !== undefined, "pivotColor is undefined");
-  invariant(targetColorParameter !== undefined, "targetColor is undefined");
-  const pivotColor = `#${pivotColorParameter}`;
-  const targetColor = `#${targetColorParameter}`;
+  const pivotColor = useParameterColor("pivotColor");
+  const targetColor = useParameterColor("targetColor");
 
   const [activeMeasurers, setActiveMeasurers] = useState<
     readonly (keyof typeof MEASURERS)[]
