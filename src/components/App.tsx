@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { filter, keys, map, pipe, toPairs } from "remeda";
 import invariant from "tiny-invariant";
 import { MEASURERS } from "../color_spaces/measurers";
@@ -15,6 +15,8 @@ const DEFAULT_ACTIVE_MEASURERS = [
 const ALL_MEASURERS = keys.strict(MEASURERS);
 
 export function App() {
+  const navigate = useNavigate();
+
   const { pivotColor: pivotColorParameter, targetColor: targetColorParameter } =
     useParams();
   invariant(pivotColorParameter !== undefined, "pivotColor is undefined");
@@ -26,9 +28,12 @@ export function App() {
     readonly (keyof typeof MEASURERS)[]
   >(DEFAULT_ACTIVE_MEASURERS);
 
-  const handlePivotColorChange = useCallback((_color: string) => {
-    // DO NOTHING FOR NOW
-  }, []);
+  const handlePivotColorChange = useCallback(
+    (color: string) => {
+      navigate(`/${color.slice(1)}/${targetColor.slice(1)}`);
+    },
+    [navigate, targetColor],
+  );
 
   const handleTargetColorChange = useCallback((_color: string) => {
     // DO NOTHING FOR NOW
