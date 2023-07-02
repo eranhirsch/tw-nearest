@@ -37,10 +37,7 @@ export function App() {
         <section className="flex w-full items-stretch justify-evenly gap-8">
           <CssColorPicker
             value={pivotColor}
-            style={{ borderColor: pivotColor }}
-            className={`text-md w-64 rounded-lg border p-2 font-mono text-neutral-500 transition focus-within:shadow-lg ${
-              pivotColor === "#ffffff" ? "!border-neutral-300" : ""
-            }`}
+            className="text-md w-64 rounded-lg border p-2 font-mono text-neutral-500 transition focus-within:shadow-lg"
             onChange={handlePivotColorChange}
             placeholder="CSS Color"
           />
